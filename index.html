@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Brasa Dorada — Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --dark: #1a1208;
+      --gold: #c8922a;
+      --gold-light: #e8b84b;
+      --rust: #8b3a1e;
+      --warm-gray: #6b5f4e;
+    }
+      .menu-item-img {
+          width: 100%;
+          height: 230px;
+          object-fit: cover;
+          border-radius: 6px;
+          margin-top: 10px;
+      }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      background: linear-gradient(to bottom, rgba(26,18,8,.95), transparent);
+      backdrop-filter: blur(2px);
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--cream); text-decoration: none;
+      font-size: .85rem; letter-spacing: .12em; text-transform: uppercase;
+      opacity: .8; transition: opacity .2s, color .2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold-light); }
+    .nav-btn {
+      background: var(--gold); color: var(--dark);
+      border: none; padding: .6rem 1.6rem;
+      font-family: 'Jost', sans-serif; font-size: .8rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      cursor: pointer; transition: background .2s;
+    }
+    .nav-btn:hover { background: var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh;
+      display: grid; place-items: center;
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, rgba(200,146,42,.12), transparent),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(139,58,30,.18), transparent),
+        var(--dark);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(200,146,42,.05) 40px),
+        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(200,146,42,.05) 40px);
+    }
+    .hero-content { text-align: center; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-block;
+      font-size: .75rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: .35rem 1.2rem; margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 1; font-weight: 400;
+      animation: fadeUp .8s .15s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1rem; color: rgba(245,240,232,.6);
+      letter-spacing: .06em;
+      animation: fadeUp .8s .3s ease both;
+    }
+    .hero-cta {
+      margin-top: 3rem; display: flex; gap: 1.2rem; justify-content: center;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--dark);
+      border: none; padding: .9rem 2.4rem;
+      font-family: 'Jost', sans-serif; font-size: .85rem;
+      letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--cream);
+      border: 1px solid rgba(245,240,232,.35); padding: .9rem 2.4rem;
+      font-family: 'Jost', sans-serif; font-size: .85rem;
+      letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+      transition: border-color .2s, color .2s, transform .15s;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      font-size: .7rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(245,240,232,.4); animation: fadeIn 1s 1s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s 1s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .about-img {
+      background:
+        linear-gradient(135deg, rgba(200,146,42,.2) 0%, transparent 50%),
+        linear-gradient(to bottom right, #2a1a0a, #0d0804);
+      display: grid; place-items: center; position: relative; overflow: hidden;
+    }
+    .about-img::after {
+      content: '🔥';
+      font-size: 8rem; opacity: .08;
+      position: absolute;
+    }
+    .about-img-inner {
+      width: 280px; height: 280px; border: 1px solid rgba(200,146,42,.3);
+      display: grid; place-items: center;
+      position: relative;
+    }
+    .about-img-inner::before, .about-img-inner::after {
+      content: '';
+      position: absolute;
+      border: 1px solid rgba(200,146,42,.15);
+    }
+    .about-img-inner::before { inset: -16px; }
+    .about-img-inner::after { inset: -32px; }
+    .about-img-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; text-align: center; color: var(--gold);
+      font-style: italic;
+    }
+    .about-content {
+      padding: 5rem; display: flex; flex-direction: column; justify-content: center;
+      background: #110d06;
+    }
+    .section-tag {
+      font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .about-content h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .about-content p {
+      color: rgba(245,240,232,.65); line-height: 1.8; margin-bottom: 1rem;
+      font-size: .95rem;
+    }
+    .stats {
+      display: flex; gap: 2.5rem; margin-top: 2.5rem;
+      padding-top: 2.5rem; border-top: 1px solid rgba(200,146,42,.2);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; color: var(--gold); line-height: 1;
+    }
+    .stat-label { font-size: .75rem; color: rgba(245,240,232,.5); letter-spacing: .08em; margin-top: .3rem; }
+
+    /* ── MENU ── */
+    .menu-section {
+      padding: 7rem 4rem;
+      background: var(--dark);
+    }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 400;
+    }
+    .menu-tabs {
+      display: flex; justify-content: center; gap: 0;
+      margin-bottom: 3rem; border: 1px solid rgba(200,146,42,.25);
+      width: fit-content; margin-inline: auto;
+    }
+    .tab {
+      padding: .7rem 2rem; cursor: pointer;
+      font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(245,240,232,.5); background: transparent; border: none;
+      transition: all .2s; font-family: 'Jost', sans-serif;
+    }
+    .tab.active, .tab:hover { background: var(--gold); color: var(--dark); }
+
+    .menu-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1px; background: rgba(200,146,42,.1);
+      max-width: 1100px; margin: 0 auto;
+    }
+    .menu-item {
+      background: #110d06; padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: start;
+      transition: background .2s;
+    }
+    .menu-item:hover { background: #1a1208; }
+    .menu-item-left {}
+    .menu-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; margin-bottom: .4rem;
+    }
+    .menu-item-desc { font-size: .82rem; color: rgba(245,240,232,.5); line-height: 1.6; }
+    .menu-item-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--gold); white-space: nowrap; margin-left: 1rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      background: #110d06;
+    }
+    .exp-card {
+      padding: 4rem 3rem; border-right: 1px solid rgba(200,146,42,.12);
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .exp-card:last-child { border-right: none; }
+    .exp-card:hover { background: rgba(200,146,42,.05); }
+    .exp-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+    .exp-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 400; margin-bottom: 1rem;
+    }
+    .exp-card p { font-size: .88rem; color: rgba(245,240,232,.55); line-height: 1.8; }
+
+    /* ── RESERVA ── */
+    .reserva {
+      padding: 7rem 4rem; text-align: center;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, rgba(200,146,42,.08), transparent),
+        var(--dark);
+    }
+    .reserva h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; margin-bottom: 1rem;
+    }
+    .reserva p { color: rgba(245,240,232,.55); margin-bottom: 3rem; font-size: .95rem; }
+    .reserva-form {
+      display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap;
+      max-width: 700px; margin: 0 auto;
+    }
+    .form-input {
+      background: rgba(245,240,232,.05); border: 1px solid rgba(200,146,42,.25);
+      color: var(--cream); padding: .85rem 1.4rem;
+      font-family: 'Jost', sans-serif; font-size: .88rem;
+      outline: none; flex: 1; min-width: 160px;
+      transition: border-color .2s;
+    }
+    .form-input:focus { border-color: var(--gold); }
+    .form-input::placeholder { color: rgba(245,240,232,.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 4rem; border-top: 1px solid rgba(200,146,42,.15);
+      display: flex; justify-content: space-between; align-items: center;
+      background: #0a0804;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--gold);
+    }
+    .footer-info { text-align: center; font-size: .78rem; color: rgba(245,240,232,.35); line-height: 1.8; }
+    .footer-socials { display: flex; gap: 1rem; }
+    .social-btn {
+      width: 38px; height: 38px; border: 1px solid rgba(200,146,42,.3);
+      display: grid; place-items: center; font-size: .85rem;
+      cursor: pointer; transition: background .2s, border-color .2s;
+    }
+    .social-btn:hover { background: var(--gold); border-color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about { grid-template-columns: 1fr; }
+      .about-img { min-height: 280px; }
+      .about-content { padding: 2.5rem 1.5rem; }
+      .menu-section { padding: 4rem 1.5rem; }
+      .experience { grid-template-columns: 1fr; }
+      .exp-card { border-right: none; border-bottom: 1px solid rgba(200,146,42,.12); }
+      .reserva { padding: 4rem 1.5rem; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">La Brasa Dorada</div>
+    <ul class="nav-links">
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#menu">Menú</a></li>
+      <li><a href="#experience">Experiencia</a></li>
+      <li><a href="#reserva">Contacto</a></li>
+    </ul>
+    <a href="#reserva" class="btn-primary">reservar mesa</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Desde 1998 · Los Mochis, Sinaloa</div>
+      <h1>La <em>Brasa</em><br>Dorada</h1>
+      <p class="hero-sub">Cocina de fuego lento. Sabores que perduran.</p>
+      <div class="hero-cta">
+          <a href="#menu" class="btn-primary">Ver Menú</a>
+          <a href="#reserva" class="btn-outline">Hacer Reservación</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Descubrir
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-img">
+      <div class="about-img-inner">
+        <div class="about-img-text">
+          "El fuego es<br>el alma<br>de la cocina"
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-tag">Nuestra Historia</div>
+      <h2>Tradición en cada<br>bocado desde 1998</h2>
+      <p>Nacimos de la pasión por la cocina de leña y el respeto por los ingredientes locales de Sinaloa. Cada platillo es una historia contada a través del fuego lento y el sazón heredado de generación en generación.</p>
+      <p>Nuestro chef, con más de 25 años de experiencia, selecciona personalmente los mejores cortes y productos frescos de la región para garantizar una experiencia gastronómica única.</p>
+      <div class="stats">
+        <div>
+          <div class="stat-num">25+</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div>
+          <div class="stat-num">80+</div>
+          <div class="stat-label">Platillos en menú</div>
+        </div>
+        <div>
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Calificación Google</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+
+  <section class="menu-section" id="menu">
+      <div class="section-header">
+          <div class="section-tag">Gastronomía</div>
+          <h2>Nuestro Menú</h2>
+      </div>
+      <div class="menu-tabs">
+          <button class="tab active" data-tab="entradas">Entradas</button>
+          <button class="tab" data-tab="principales">Principales</button>
+          <button class="tab" data-tab="postres">Postres</button>
+          <button class="tab" data-tab="bebidas">Bebidas</button>
+      </div>
+
+      <div id="entradas" class="menu-grid tab-content">
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Ceviche Sinaloense</div>
+                  <div class="menu-item-desc">Camarón fresco, pepino, jitomate, chile serrano y limón</div>
+                  <img class="menu-item-img" src="https://i.pinimg.com/474x/d5/26/35/d52635bc4eb7482de42d85fcbe79e6fd.jpg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$120</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Tostadas de Marlín</div>
+                  <div class="menu-item-desc">Marlín ahumado, aguacate, crema y chile de árbol</div>
+                  <img class="menu-item-img" src="https://i.ytimg.com/vi/I7z0_p3Fl1g/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDTwUNOYMP17XdAhz5EJJSrx9rc6A" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$95</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Sopa de Mariscos</div>
+                  <div class="menu-item-desc">Caldo de pescado con camarón, almeja y calamar</div>
+                  <img class="menu-item-img" src="https://editorialtelevisa.brightspotcdn.com/dims4/default/59d233e/2147483647/strip/true/crop/700x700+250+0/resize/1000x1000!/quality/90/?url=https%3A%2F%2Fk2-prod-editorial-televisa.s3.us-east-1.amazonaws.com%2Fbrightspot%2F97%2F37%2Fc4e5ab42476ebdb2cfa664dd44f0%2Fsopa-de-mariscos.jpg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$140</div>
+          </div>
+      </div>
+
+      <div id="principales" class="menu-grid tab-content" style="display:none">
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Costilla a la Brasa</div>
+                  <div class="menu-item-desc">Cocción lenta 8 horas, salsa BBQ artesanal y guarnición</div>
+                  <img class="menu-item-img" src="https://enmerjosa.com/wp-content/uploads/2018/02/como-cocinar-un-costillar-de-cerdo-a-la-brasa-al-estilo-argentino.jpeg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$320</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Arrachera Premium</div>
+                  <div class="menu-item-desc">Corte marinado, pico de gallo y tortillas hechas a mano</div>
+                  <img class="menu-item-img" src="https://lacarniceriavirtual.com/cdn/shop/files/LCVCOM_ARRACHERA_1K_02_1024x.jpg?v=17130274033" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$260</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Salmón a la Mantequilla</div>
+                  <div class="menu-item-desc">Filete de salmón cocinado a la mantequilla con verduras salteadas y arroz</div>
+                  <img class="menu-item-img" src="https://comedera.com/wp-content/uploads/sites/9/2023/10/shutterstock_590193029.jpg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$240</div>
+          </div>
+      </div>
+
+
+
+      <div id="postres" class="menu-grid tab-content" style="display:none">
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Flan Napolitano</div>
+                  <div class="menu-item-desc">Flan cremoso con caramelo dulce y textura suave</div>
+                  <img class="menu-item-img" src="https://www.recetasnestle.com.mx/sites/default/files/srh_recipes/54c6cbcbc6d611e056122d64560cd9c1.jpg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$75</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Pastel de Tres Leches</div>
+                  <div class="menu-item-desc">Bizcocho esponjoso bañado en tres tipos de leche</div>
+                  <img class="menu-item-img" src="https://cdn7.kiwilimon.com/recetaimagen/36187/640x640/44504.jpg.webp" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$90</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Chocoflan</div>
+                  <div class="menu-item-desc">Pastel de chocolate combinado con flan suave y caramelo</div>
+                  <img class="menu-item-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7X7cekmp5ebXamDtgooUXvvG62QGYD9ECIg&s" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$95</div>
+          </div>
+      </div>
+
+      <div id="bebidas" class="menu-grid tab-content" style="display:none">
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Agua de Jamaica</div>
+                  <div class="menu-item-desc">Bebida de flor de jamaica natural</div>
+                  <img class="menu-item-img" src="https://www.infobae.com/resizer/v2/IDNEPYYXRJBFHBLLZZ5BO5OJDY.jpg?auth=dad66630ffc1b14e481b147e19b61f8c5600fa5bc65202fd671c31ab759f8981&smart=true&width=1024&height=512&quality=85" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$35</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Limonada Mineral</div>
+                  <div class="menu-item-desc">Limonada fría con agua mineral y hielo</div>
+                  <img class="menu-item-img" src="https://cdn7.kiwilimon.com/recetaimagen/3675/640x640/11838.jpg.webp" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$45</div>
+          </div>
+          <div class="menu-item">
+              <div class="menu-item-left">
+                  <div class="menu-item-name">Piña Colada</div>
+                  <div class="menu-item-desc">Bebida cremosa de piña y coco servida</div>
+                  <img class="menu-item-img" src="https://lostragos.com/wp-content/uploads/2012/01/pina_colada_lostragos-1.jpg" alt="Restaurante" />
+              </div>
+              <div class="menu-item-price">$80</div>
+          </div>
+      </div>
+
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <div class="exp-card">
+      <div class="exp-icon">🔥</div>
+      <h3>Cocina al Fuego</h3>
+      <p>Todos nuestros platillos principales se preparan en nuestra parrilla de leña artesanal, conservando el sabor auténtico de la cocina tradicional sinaloense.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🦐</div>
+      <h3>Mariscos Frescos</h3>
+      <p>Trabajamos directamente con pescadores locales del Puerto de Topolobampo para garantizar la frescura absoluta de nuestros ingredientes del mar cada día.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">🍷</div>
+      <h3>Ambiente Especial</h3>
+      <p>Un espacio diseñado para que cada visita sea memorable. Perfecta para cenas románticas, celebraciones familiares y reuniones de negocios.</p>
+    </div>
+  </section>
+
+  <!-- RESERVA -->
+  <section class="reserva" id="reserva">
+    <div class="section-tag">Reservaciones</div>
+    <h2>Reserva tu Mesa</h2>
+    <p>Garantiza tu lugar y vive una experiencia gastronómica inolvidable</p>
+    <div class="reserva-form">
+      <input class="form-input" type="text" placeholder="Tu nombre"/>
+      <input class="form-input" type="tel" placeholder="Teléfono"/>
+      <input class="form-input" type="date"/>
+      <input class="form-input" type="number" placeholder="Personas" min="1" max="20"/>
+      <button class="btn-primary" style="width:100%; margin-top:.4rem;">Confirmar Reservación</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">La Brasa Dorada</div>
+    <div class="footer-info">
+      Blvd. Jiquilpan 450, Los Mochis, Sinaloa<br>
+      (668) 123-4567 · labrasa@email.com<br>
+      Lun–Dom · 1:00 pm – 11:00 pm
+    </div>
+    <div class="footer-socials">
+      <div class="social-btn">📘</div>
+      <div class="social-btn">📸</div>
+      <div class="social-btn">🐦</div>
+    </div>
+  </footer>
+
+  <script>
+      // Tab switching
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+              tabs.forEach(t => t.classList.remove('active'));
+              tab.classList.add('active');
+
+              // ← esto es lo que faltaba
+              document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+              document.getElementById(tab.dataset.tab).style.display = 'grid';
+          });
+      });
+
+      // Scroll reveal
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+              if (e.isIntersecting) {
+                  e.target.style.opacity = '1';
+                  e.target.style.transform = 'translateY(0)';
+              }
+          });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.menu-item, .exp-card, .about-content, .stat-num').forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = 'opacity .6s ease, transform .6s ease';
+          observer.observe(el);
+      });
+  </script>
+</body>
+</html>
