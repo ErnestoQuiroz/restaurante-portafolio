@@ -64,7 +64,7 @@
     }
     .nav-btn:hover { background: var(--gold-light); }
 
-    /* ── HERO ── */
+   
     .hero {
       height: 100vh;
       display: grid; place-items: center;
@@ -141,7 +141,7 @@
       100% { transform: scaleY(0); transform-origin: bottom; }
     }
 
-    /* ── ABOUT ── */
+    
     .about {
       display: grid; grid-template-columns: 1fr 1fr;
       min-height: 80vh;
@@ -201,7 +201,7 @@
     }
     .stat-label { font-size: .75rem; color: rgba(245,240,232,.5); letter-spacing: .08em; margin-top: .3rem; }
 
-    /* ── MENU ── */
+   
     .menu-section {
       padding: 7rem 4rem;
       background: var(--dark);
@@ -246,7 +246,7 @@
       font-size: 1.3rem; color: var(--gold); white-space: nowrap; margin-left: 1rem;
     }
 
-    /* ── EXPERIENCE ── */
+   
     .experience {
       display: grid; grid-template-columns: repeat(3, 1fr);
       background: #110d06;
@@ -265,7 +265,7 @@
     }
     .exp-card p { font-size: .88rem; color: rgba(245,240,232,.55); line-height: 1.8; }
 
-    /* ── RESERVA ── */
+  
     .reserva {
       padding: 7rem 4rem; text-align: center;
       background:
@@ -291,7 +291,7 @@
     .form-input:focus { border-color: var(--gold); }
     .form-input::placeholder { color: rgba(245,240,232,.3); }
 
-    /* ── FOOTER ── */
+   
     footer {
       padding: 3rem 4rem; border-top: 1px solid rgba(200,146,42,.15);
       display: flex; justify-content: space-between; align-items: center;
@@ -310,7 +310,7 @@
     }
     .social-btn:hover { background: var(--gold); border-color: var(--gold); }
 
-    /* ── ANIMATIONS ── */
+    
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -319,7 +319,7 @@
       from { opacity: 0; } to { opacity: 1; }
     }
 
-    /* ── RESPONSIVE ── */
+  
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
@@ -336,7 +336,7 @@
 </head>
 <body>
 
-  <!-- NAV -->
+
   <nav>
     <div class="logo">La Brasa Dorada</div>
     <ul class="nav-links">
@@ -348,10 +348,9 @@
     <a href="#reserva" class="btn-primary">reservar mesa</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-tag">Desde 1998 · Los Mochis, Sinaloa</div>
+      <div class="hero-tag">Desde 1998 Sinaloa, México</div>
       <h1>La <em>Brasa</em><br>Dorada</h1>
       <p class="hero-sub">Cocina de fuego lento. Sabores que perduran.</p>
       <div class="hero-cta">
@@ -365,7 +364,7 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
+
   <section class="about" id="about">
     <div class="about-img">
       <div class="about-img-inner">
@@ -396,7 +395,6 @@
     </div>
   </section>
 
-  <!-- MENU -->
 
   <section class="menu-section" id="menu">
       <div class="section-header">
@@ -522,7 +520,7 @@
 
   </section>
 
-  <!-- EXPERIENCE -->
+  
   <section class="experience" id="experience">
     <div class="exp-card">
       <div class="exp-icon">🔥</div>
@@ -541,7 +539,6 @@
     </div>
   </section>
 
-  <!-- RESERVA -->
   <section class="reserva" id="reserva">
     <div class="section-tag">Reservaciones</div>
     <h2>Reserva tu Mesa</h2>
@@ -555,11 +552,11 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+
   <footer>
     <div class="footer-logo">La Brasa Dorada</div>
     <div class="footer-info">
-      Blvd. Jiquilpan 450, Los Mochis, Sinaloa<br>
+      Blvd. Rosales 450, Sinaloa, México<br>
       (668) 123-4567 · labrasa@email.com<br>
       Lun–Dom · 1:00 pm – 11:00 pm
     </div>
@@ -571,20 +568,20 @@
   </footer>
 
   <script>
-      // Tab switching
+      
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => {
           tab.addEventListener('click', () => {
               tabs.forEach(t => t.classList.remove('active'));
               tab.classList.add('active');
 
-              // ← esto es lo que faltaba
+              
               document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
               document.getElementById(tab.dataset.tab).style.display = 'grid';
           });
       });
 
-      // Scroll reveal
+      
       const observer = new IntersectionObserver((entries) => {
           entries.forEach(e => {
               if (e.isIntersecting) {
